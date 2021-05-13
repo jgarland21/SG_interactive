@@ -10,7 +10,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 """ NOTES/ACKNOWLEDGMENTS
 Inspiration and certain formulae/parameters (e.g. the magnetic field gaussian shape) from Dr. Ahmet Bingul's 2008 code.
 
-This certainly works on Mac OS 10.14, however other platforms are untested
+This certainly works on Mac OS 10.14, however other platforms are untested.
 """
 
 #init window setup
@@ -22,24 +22,23 @@ manager.window.setFixedSize(700,700)
 manager.set_window_title('SG Simulator')
 
 #original experiment/default parameters:
-L = 0.035 #3.5cm
-D = 0.035 #m
-x_max = 8*10**(-4) #0.8mm
-z_max = 3.5*10**(-5) #0.03-0.04mm
-B = 0.1 #T
-dB = 1000 #T/m
-T = 1300 #K
-l = 0.5
+L = 0.035 #length of magneton, m
+D = 0.035 #magnet-to-plate distance, m
+x_max = 8*10**(-4) #aperture x-size, m
+z_max = 3.5*10**(-5) #aperture z-size, m
+B = 0.1 #base field strength, T
+T = 1300 #oven temperature, K
+l = 0.5 #initial spin
 
 #constants/fundamental parameters
 hbar = constants.hbar
 uB = constants.value('Bohr magneton')
 g = constants.value('electron g factor')
 u = constants.value('atomic mass constant')
-m_silver = 107.87 * u
-m_e = constants.m_e #kg
-k = constants.k
-e = constants.e
+m_silver = 107.87 * u #silver mass, kg
+m_e = constants.m_e #electron mass, kg
+k = constants.k #Boltzmann constant, J K^-1
+e = constants.e #electron charge, C
 
 #other variable/plot initialization
 spins = []
@@ -49,6 +48,8 @@ z_final = []
 quantum_bool = 1
 spin_mag = np.sqrt(l * (l+1)) * hbar
 n_atoms = 10000
+
+#scatter plot init
 patternPlot = plt.scatter(x_pos, z_final, s=1)
 
 #histograms
@@ -110,7 +111,7 @@ def update(val):
     maxwell = stats.maxwell
     uniform = stats.uniform
 
-    #maxwell-boltzmann velocity distribution
+    #Maxwell-Boltzmann velocity distribution
     velocities = maxwell.rvs(loc=0, scale=np.sqrt(k*T/m_silver), size=n_atoms)
 
     #assign spins
